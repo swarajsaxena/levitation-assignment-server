@@ -1,4 +1,4 @@
-import path from 'path'
+const path = require('path')
 import { mongoose } from './utils/mongooseConfig'
 
 const express = require('express')
