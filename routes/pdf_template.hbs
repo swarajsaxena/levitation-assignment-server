@@ -1,0 +1,64 @@
+<html lang='en'>
+  <head>
+    <style>
+      * { margin: 0; box-sizing: border-box; } body { padding: 1rem; display:
+      flex; gap: 1rem; flex-direction: column; } .title { font-size: 2rem; }
+      .table { display: flex; flex-direction: column; } .row { display: grid;
+      grid-template-columns: repeat(4, 1fr); padding: 0.5rem 0; } .row2 {
+      display: grid; grid-template-columns: repeat(2, 1fr); padding: 0.5rem 0; }
+      .header { font-weight: bold; } .qty { color: #858ecd; font-weight: bold; }
+      .border { border-top: 1px solid; border-bottom: 1px solid; } .terms {
+      background: #303030; color: white; display: flex; flex-direction: column;
+      gap: 0.5rem; padding: 2rem; border-radius: 2rem; height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class='title'><b>Invoice Generator</b></div>
+      <div class='subTitle'>{{id}}</div>
+    </div>
+    <div class='table'>
+      <div class='row header'>
+        <div>Product</div>
+        <div>Qty</div>
+        <div>Rate</div>
+        <div>Total</div>
+      </div>
+      {{#each products}}
+        <div class='row'>
+          <div>{{this.productName}}</div>
+          <div class='qty'>{{this.quantity}}</div>
+          <div>{{this.rate}}</div>
+          <div>{{this.total}}</div>
+        </div>
+      {{/each}}
+    </div>
+    <div class='row2'>
+      <div></div>
+      <div class='table'>
+        <div class='row2'>
+          <div><b>Total</b></div>
+          <div class='qty'>{{totalAmount}}</div>
+        </div>
+        <div class='row2'>
+          <div>GST</div>
+          <div class='qty'>18 %</div>
+        </div>
+        <div class='row2 border'>
+          <div>Grand Total</div>
+          <div class='qty'>{{grandTotal}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div>Valid Till <b>31/12/2024</b></div>
+    <div class='terms'>
+      <div><b>Terms And Conditions</b></div>
+      <div>
+        We are happy to supply any turthur infromation you may need and trust
+        that you call us to till order. Which will receive prompt and careful
+        attention.
+      </div>
+    </div>
+  </body>
+</html>
