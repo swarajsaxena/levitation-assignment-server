@@ -1,8 +1,7 @@
-import { Types } from 'mongoose'
 
 const jwt = require('jsonwebtoken')
 
-const createJWT = (email: string, userId: Types.ObjectId, duration: number) => {
+const createJWT = (email: string, userId: string, duration: number) => {
   const payload = {
     email,
     userId,

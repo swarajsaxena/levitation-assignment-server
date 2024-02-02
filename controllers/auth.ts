@@ -1,10 +1,9 @@
-import { Request, Response } from 'express'
-import { User } from '../models/user.model'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
-import { createJWT } from '../utils/auth'
+const { User } = require('../models/user.model')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const { createJWT } = require('../utils/auth')
 
-export const register = (req: Request, res: Response): void => {
+export const register = (req: any, res: any): void => {
   let { email, password, name } = req.body.data
   console.log(email, password, name)
 
@@ -35,13 +34,13 @@ export const register = (req: Request, res: Response): void => {
                   newUser.password = hash
                   newUser
                     .save()
-                    .then((response) => {
+                    .then((any) => {
                       res.status(200).json({
                         success: true,
                         user: {
-                          email: response.email,
-                          id: response._id,
-                          name: response.name,
+                          email: any.email,
+                          id: any._id,
+                          name: any.name,
                         },
                       })
                     })
@@ -69,7 +68,7 @@ export const register = (req: Request, res: Response): void => {
     })
 }
 
-export const login = (req: Request, res: Response): void => {
+export const login = (req: any, res: any): void => {
   let { email, password } = req.body
   User.findOne({ email })
     .then((user) => {
@@ -84,7 +83,11 @@ export const login = (req: Request, res: Response): void => {
                 .status(200)
                 .json({ success: false, message: 'password incorrect' })
             }
-            let access_token = createJWT(user.email, user._id, 3600)
+            let access_token = createJWT(
+              user.email,
+              user._id as unknown as string,
+              3600
+            )
             jwt.verify(
               access_token,
               'super_secret_token_secret',
@@ -111,7 +114,7 @@ export const login = (req: Request, res: Response): void => {
     })
 }
 
-export const getUserFromToken = (req: Request, res: Response): void => {
+export const getUserFromToken = (req: any, res: any): void => {
   const token = req.headers.auth_token as string
 
   jwt.verify(token, 'super_secret_token_secret', (err, decoded) => {

@@ -1,10 +1,10 @@
-import { Request, Response } from 'express'
-import { router } from '../utils/mongooseConfig'
-import path from 'path'
-import fs from 'fs'
-import handlebars from 'handlebars'
-import puppeteer from 'puppeteer'
-import { v4 as uuidV4 } from 'uuid'
+const express = require('express')
+const { router } = require('../utils/mongooseConfig')
+const path = require('path')
+const fs = require('fs')
+const handlebars = require('handlebars')
+const puppeteer = require('puppeteer')
+const { v4: uuidV4 } = require('uuid')
 
 // Function to render Handlebars template
 function renderHandlebarsTemplate(data: any) {
@@ -16,7 +16,7 @@ function renderHandlebarsTemplate(data: any) {
   return compiledTemplate(data)
 }
 
-router.post('/generate-invoice', async (req: Request, res: Response) => {
+router.post('/generate-invoice', async (req: any, res: any) => {
   const { products } = req.body
 
   // Calculate product-wise totals
