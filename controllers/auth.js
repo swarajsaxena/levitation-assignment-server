@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { createJWT } = require('../utils/auth')
 
-export const register = (req: any, res: any): void => {
+const register = () => {
   let { email, password, name } = req.body.data
   console.log(email, password, name)
 
@@ -28,8 +28,8 @@ export const register = (req: any, res: any): void => {
                 email: email,
                 password: password,
               })
-              bcrypt.genSalt(10, function (err: any, salt: any) {
-                bcrypt.hash(password, salt, function (err: any, hash: string) {
+              bcrypt.genSalt(10, function (err, salt) {
+                bcrypt.hash(password, salt, function (err, hash) {
                   if (err) throw err
                   newUser.password = hash
                   newUser
@@ -68,7 +68,7 @@ export const register = (req: any, res: any): void => {
     })
 }
 
-export const login = (req: any, res: any): void => {
+const login = () => {
   let { email, password } = req.body
   User.findOne({ email })
     .then((user) => {
@@ -77,7 +77,7 @@ export const login = (req: any, res: any): void => {
       } else {
         bcrypt
           .compare(password, user.password)
-          .then((isMatch: any) => {
+          .then((isMatch) => {
             if (!isMatch) {
               return res
                 .status(200)
@@ -85,13 +85,13 @@ export const login = (req: any, res: any): void => {
             }
             let access_token = createJWT(
               user.email,
-              user._id as unknown as string,
+              user._id,
               3600
             )
             jwt.verify(
               access_token,
               'super_secret_token_secret',
-              (err: any, decoded: any) => {
+              (err, decoded) => {
                 if (err) {
                   res.status(500).json({ errors: err })
                 }
@@ -104,7 +104,7 @@ export const login = (req: any, res: any): void => {
               }
             )
           })
-          .catch((err: any) => {
+          .catch((err) => {
             res.status(500).json({ success: false, message: err })
           })
       }
@@ -114,8 +114,8 @@ export const login = (req: any, res: any): void => {
     })
 }
 
-export const getUserFromToken = (req: any, res: any): void => {
-  const token = req.headers.auth_token as string
+const getUserFromToken = () => {
+  const token = req.headers.auth_token
 
   jwt.verify(token, 'super_secret_token_secret', (err, decoded) => {
     if (err) {
@@ -137,3 +137,5 @@ export const getUserFromToken = (req: any, res: any): void => {
     }
   })
 }
+
+module.exports = { register, login, getUserFromToken }

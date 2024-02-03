@@ -1,6 +1,4 @@
-import {mongoose} from "../utils/mongooseConfig"
-
-const Schema = mongoose.Schema
+const { Schema } = require("mongoose")
 
 const invoiceSchema = new Schema({
   user: {

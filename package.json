@@ -8,8 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "nodemon app.ts",
-    "nodemon": "nodemon app.ts"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -28,8 +27,6 @@
     "mongoose": "^8.1.1",
     "nodemon": "^3.0.3",
     "puppeteer": "^21.11.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
     "uuid": "^9.0.1"
   },
   "engines": {

@@ -1,16 +1,15 @@
+const mongoose = require('mongoose')
 const path = require('path')
-import { mongoose } from './utils/mongooseConfig'
-
 const express = require('express')
 const exphbs = require('express-handlebars')
 const cors = require('cors')
-export const app = express()
+const app = express()
 const port = process.env.PORT || 3001
 
 app.engine('hbs', exphbs.engine())
 app.use(cors())
 app.use(express.json())
-app.get('/', (req: any, res: any) => res.json({ message: 'ok' }))
+app.get('/', (req, res) => res.json({ message: 'ok' }))
 
 const auth = require('./routes/auth.route')
 const generateInvoice = require('./routes/generateInvoice.route')

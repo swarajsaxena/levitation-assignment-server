@@ -1,13 +1,13 @@
 const express = require('express')
-const { router } = require('../utils/mongooseConfig')
 const path = require('path')
 const fs = require('fs')
 const handlebars = require('handlebars')
 const puppeteer = require('puppeteer')
 const { v4: uuidV4 } = require('uuid')
+const router = express.Router()
 
 // Function to render Handlebars template
-function renderHandlebarsTemplate(data: any) {
+function renderHandlebarsTemplate(data) {
   // Load the Handlebars template file and render it with data
   // Replace 'your-template-file.hbs' with the actual file path
   const template = fs.readFileSync('./routes/pdf_template.hbs', 'utf-8')
@@ -16,12 +16,12 @@ function renderHandlebarsTemplate(data: any) {
   return compiledTemplate(data)
 }
 
-router.post('/generate-invoice', async (req: any, res: any) => {
+router.post('/generate-invoice', async (req, res) => {
   const { products } = req.body
 
   // Calculate product-wise totals
   const pro = products.map(
-    (item: { name: any; quantity: number; price: number }) => ({
+    (item) => ({
       productName: `Product ${item.name}`,
       quantity: item.quantity,
       rate: item.price,
@@ -31,7 +31,7 @@ router.post('/generate-invoice', async (req: any, res: any) => {
 
   // Calculate total amount
   const totalAmount = pro.reduce(
-    (total: number, product: { rate: any; quantity: any }) =>
+    (total, product) =>
       total + Number(product.rate || 0) * Number(product.quantity || 0),
     0
   )
@@ -42,9 +42,8 @@ router.post('/generate-invoice', async (req: any, res: any) => {
 
   // Current date
   const currentDate = new Date()
-  const validityDate = `${currentDate.getDate()}/${
-    currentDate.getMonth() + 1
-  }/${currentDate.getFullYear()}`
+  const validityDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1
+    }/${currentDate.getFullYear()}`
 
   // Terms and Conditions
   const termsAndConditions = 'Your terms and conditions here...'
