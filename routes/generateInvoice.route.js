@@ -60,7 +60,7 @@ router.post('/generate-invoice', async (req, res) => {
   }
 
   try {
-    const browser = await puppeteer.launch({ headless: 'new', executablePath: `/usr/bin/google-chrome` })
+    const browser = await puppeteer.launch({ headless: 'new', args: [ '--no-sandbox' ] })
     const page = await browser.newPage()
 
     // Render the Handlebars template with the provided data
