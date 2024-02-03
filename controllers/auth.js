@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { createJWT } = require('../utils/auth')
 
-const register = () => {
+const register = (req, res) => {
   let { email, password, name } = req.body.data
   console.log(email, password, name)
 
@@ -68,7 +68,7 @@ const register = () => {
     })
 }
 
-const login = () => {
+const login = (req, res) => {
   let { email, password } = req.body
   User.findOne({ email })
     .then((user) => {
@@ -114,7 +114,7 @@ const login = () => {
     })
 }
 
-const getUserFromToken = () => {
+const getUserFromToken = (req, res) => {
   const token = req.headers.auth_token
 
   jwt.verify(token, 'super_secret_token_secret', (err, decoded) => {
